@@ -112,7 +112,7 @@ const Main = () => {
 
 
 <div className='bottom-info'>
-    Apna AI May Display Inaccurate Infomation.
+    Vision AI May Display Inaccurate Infomation.
     </div>
 </div>
 </div>
