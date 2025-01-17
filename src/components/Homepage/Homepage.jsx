@@ -1,7 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Homepage.css'; // Make sure to create and import this CSS file
-
+import ss1 from '../../assets/Screenshot1.png'
+import ss2 from '../../assets/Screenshot2.png'
+import ss3 from '../../assets/Screenshot3.png'
 
 const messages = [
   "Text asking a friend to be my plus-one",
@@ -107,12 +109,11 @@ const Homepage = () => {
         </div>
                 <div className="content">
                   <h2 className="content-heading">Generate and debug code. Automate repetitive tasks. Learn new APIs.</h2>
-                  <img  className ="content-image" src="https://images.ctfassets.net/kftzwdyauwt9/1BwuuaPLJarThH7erMwjki/a80737b9e7fe8de3afb5e42e65c32c60/03_code_desktop_dark.png?w=1920&q=80&fm=webp" alt="" />
+                  <img  className ="content-image" src= {ss1} alt="" />
                   <h2 className="content-heading">Learn something new. Dive into a hobby. Answer complex questions.
                   </h2>
-                  <img  className ="content-image" src="https://images.ctfassets.net/kftzwdyauwt9/1BwuuaPLJarThH7erMwjki/a80737b9e7fe8de3afb5e42e65c32c60/03_code_desktop_dark.png?w=1920&q=80&fm=webp" alt="" />
-                  <h2 className="content-heading">Create images</h2>
-                  <img className ="content-image" src="https://images.ctfassets.net/kftzwdyauwt9/1BwuuaPLJarThH7erMwjki/a80737b9e7fe8de3afb5e42e65c32c60/03_code_desktop_dark.png?w=1920&q=80&fm=webp" alt="" />
+                  <img  className ="content-image" src={ss3} alt="" />
+                  
                 </div>
 
       <div className="pricing-plans">
