@@ -12,8 +12,8 @@ const App = () => {
         <Route path="/" element={<Homepage />} />
         <Route path="/app" element={<><Sidebar /><Main /></>} />
         <Route path = "/generate" element = {<ImageGenerator/>} />
-         <Route path="/login" element={<div>Login Page</div>} /> {/* Replace with your actual Login component */}
-        <Route path="/signup" element={<div>Sign Up Page</div>} /> {/* Replace with your actual Sign-Up component */}
+         <Route path="/login" element={<div>Login Page</div>} /> 
+        <Route path="/signup" element={<div>Sign Up Page</div>} /> 
       </Routes>
     </HashRouter>
   );

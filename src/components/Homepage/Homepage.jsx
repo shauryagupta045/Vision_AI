@@ -1,3 +1,6 @@
+
+// removed image generation because its not working   <button className="homepage-button" onClick={handlegenrate}>Generate Images</button> 
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Homepage.css'; // Make sure to create and import this CSS file
@@ -64,10 +67,10 @@ const Homepage = () => {
         <p className="homepage-ppp">Free to use. Easy to try.<br/> Just ask and Vision AI can help with writing, learning, brainstorming, and more.</p>
         <div className="homepage-buttons">
           <button className="homepage-button" onClick={handleStartNow}>Start Vision AI  Chat</button>
-          <button className="homepage-button" onClick={handlegenrate}>Generate Images</button>
+       
           <button className="homepage-button" onClick={() => navigate('/learn')}>Learn about Vision AI</button>
         </div>
-      </header>
+      </header> 
      
       <div className="message-container">
           <div className="message-scroller left-to-right">
