@@ -17,15 +17,14 @@ import { Context } from '../../context/Context'
 
 const Main = () => {
 
- const{onSent ,  prevPrompts, recentPrompt , showResult , loading , resultData , setInput ,input}= useContext(Context)
+ const{onSent ,  prevPrompts, setPrevPrompts, recentPrompt , showResult , loading , resultData , setInput ,input}= useContext(Context)
    
 
 
  const handleCardClick = (prompt) => {
     setInput(prompt);
     onSent(prompt);
-    prevPrompts(prompt);
-
+    setPrevPrompts(prev => [...prev, prompt]);
   }; 
 
 

@@ -4,39 +4,35 @@
  * $ npm install @google/generative-ai
  */
 
-import {
-    GoogleGenerativeAI,
-    HarmCategory,
-    HarmBlockThreshold,
-  } from "@google/generative-ai"
-  
-  const apiKey = API_KEY; 
-  const genAI = new GoogleGenerativeAI(apiKey);
-  
-  const model = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash-exp",
-  });
-  
-  const generationConfig = {
-    temperature: 1,
-    topP: 0.95,
-    topK: 40,
-    maxOutputTokens: 8192,
-    responseMimeType: "text/plain",
-  };
-  
-  async function run(prompt) {
-    const chatSession = model.startChat({
-      generationConfig,
-   
-   // See https://ai.google.dev/gemini-api/docs/safety-settings
-      history: [
-      ],
-    });
-  
-    const result = await chatSession.sendMessage(prompt);
-    console.log(result.response.text());
-    return  result.response.text();
-  }
-  
-  export default run;
+import { GoogleGenerativeAI } from "@google/generative-ai";
+
+// Get API key from environment variables
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+const genAI = new GoogleGenerativeAI(apiKey);
+
+// Use a modern, available model
+const model = genAI.getGenerativeModel({
+    model: "gemini-1.5-flash-latest",
+});
+
+const generationConfig = {
+    temperature: 0.9,
+    topK: 1,
+    topP: 1,
+    maxOutputTokens: 2048,
+};
+
+async function run(prompt) {
+    try {
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+        return text;
+    } catch (error) {
+        console.error("Gemini API Error:", error);
+        // Return a user-friendly error message or re-throw the error
+        return "Sorry, I couldn't process that. The model might be busy. Please try again later.";
+    }
+}
+
+export default run;
