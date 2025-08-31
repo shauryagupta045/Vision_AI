@@ -1,0 +1,20 @@
+.toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    z-index: 1000;
+    transition: opacity 0.5s ease;
+}
+
+.toast.success {
+    background-color: green;
+}
+
+.toast.error {
+    background-color: red;
+}

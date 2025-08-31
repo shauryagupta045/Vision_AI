@@ -1,9 +1,9 @@
-
 // removed image generation because its not working   <button className="homepage-button" onClick={handlegenrate}>Generate Images</button> 
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Homepage.css'; // Make sure to create and import this CSS file
+import Modal from '../Modal/Modal';
 import ss1 from '../../assets/Screenshot1.png'
 import ss2 from '../../assets/Screenshot2.png'
 import ss3 from '../../assets/Screenshot3.png'
@@ -33,29 +33,49 @@ const messages = [
 
 const Homepage = () => {
   const navigate = useNavigate();
-  const navigate2 = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleStartNow = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleLogin = () => {
+    navigate('/login');
+    setIsModalOpen(false);
+  };
+
+  const handleGuest = () => {
     navigate('/app');
-    
+    setIsModalOpen(false);
   };
 
   const handlegenrate = () => {
-    navigate2('/generate');
+    navigate('/generate');
   };
 
   return (
 <div className="homepage">
-<nav className="navbar">
+        <nav className="navbar">
             <div className="navbar-logo">Vision AI</div>
-            <ul className="navbar-links">
-                <li><a href="#research">Research</a></li>
-                <li><a href="#products">Products</a></li>
-                <li><a href="#safety">Safety</a></li>
-                <li><a href="#company">Company</a></li>
-            </ul>
-            <div className="navbar-search">
-                <a href="#search"><i className="search-icon">🔍</i></a>
+            <div className="navbar-menu">
+                <input type="checkbox" id="navbar-toggle" className="navbar-toggle" />
+                <label htmlFor="navbar-toggle" className="navbar-toggle-label">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+                <ul className="navbar-links">
+                    <li><a href="#research">Research</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#safety">Safety</a></li>
+                    <li><a href="#company">Company</a></li>
+                </ul>
+            </div>
+            <div className="navbar-user">
+                <button className="user-button" onClick={() => navigate('/login')}>
+                    <i className="user-icon">👤</i>
+                    <span>Login/Signup</span>
+                </button>
             </div>
         </nav>
 
@@ -239,6 +259,14 @@ const Homepage = () => {
   <p>Vision AI  ©2025</p>
 </div>
 </footer>
+
+<Modal 
+  isOpen={isModalOpen} 
+  onClose={() => setIsModalOpen(false)} 
+  onLogin={handleLogin} 
+  onGuest={handleGuest} 
+/>
+
 </div>
 </div>
   );
