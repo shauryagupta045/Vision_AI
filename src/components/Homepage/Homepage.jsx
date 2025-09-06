@@ -1,7 +1,8 @@
 // removed image generation because its not working   <button className="homepage-button" onClick={handlegenrate}>Generate Images</button> 
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Context } from '../../context/Context';
 import './Homepage.css'; // Make sure to create and import this CSS file
 import Modal from '../Modal/Modal';
 import ss1 from '../../assets/Screenshot1.png'
@@ -33,6 +34,7 @@ const messages = [
 
 const Homepage = () => {
   const navigate = useNavigate();
+  const { guestLogin } = useContext(Context);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleStartNow = () => {
@@ -45,6 +47,7 @@ const Homepage = () => {
   };
 
   const handleGuest = () => {
+    guestLogin();
     navigate('/app');
     setIsModalOpen(false);
   };

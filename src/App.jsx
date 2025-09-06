@@ -11,6 +11,7 @@ import SignupPage from './pages/SignupPage';
 
 const App = () => {
   const { toast, clearToast } = useContext(Context);
+  const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
   useEffect(() => {
     if (toast?.message) {
@@ -26,7 +27,7 @@ const App = () => {
       {toast?.message && <Toast message={toast.message} type={toast.type} />}
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/app" element={<><Sidebar /><Main /></>} />
+        <Route path="/app" element={<><Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /><Main sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} /></>} />
         <Route path="/generate" element={<ImageGenerator />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />

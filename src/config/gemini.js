@@ -26,7 +26,7 @@ async function run(prompt) {
     try {
         const result = await model.generateContent(prompt);
         const response = await result.response;
-        const text = response.text();
+        const text = await response.text();
         return text;
     } catch (error) {
         console.error("Gemini API Error:", error);

@@ -1,0 +1,5 @@
+- [x] Move formatResponse function from Main.jsx to Context.jsx
+- [x] Update delayPara in Context.jsx to format partial text for typing effect
+- [x] Remove formatResponse from Main.jsx and simplify display logic
+- [x] Test the markdown to HTML conversion in the response display
+- [x] Add character-by-character typewriter effect to the response

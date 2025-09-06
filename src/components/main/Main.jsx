@@ -9,8 +9,22 @@ import send from '../../assets/send.png'
 import logo from '../../assets/logo.png'
 import { Context } from '../../context/Context'
 
-const Main = () => {
-  const { onSent, prevPrompts, setPrevPrompts, recentPrompt, showResult, loading, resultData, setInput, input, user: currentUser } = useContext(Context)
+const Main = ({ sidebarOpen, setSidebarOpen }) => {
+  const {
+    onSent,
+    prevPrompts,
+    setPrevPrompts,
+    recentPrompt,
+    showResult,
+    loading,
+    resultData,
+    setInput,
+    input,
+    user: currentUser,
+    currentMessages,
+    showToast // Add this
+  } = useContext(Context)
+
   const [showUserInfo, setShowUserInfo] = useState(false)
 
   const handleCardClick = (prompt) => {
@@ -18,6 +32,7 @@ const Main = () => {
     onSent(prompt);
     if (currentUser && !prevPrompts.includes(prompt)) {
       setPrevPrompts(prev => [...prev, prompt]);
+      showToast('Prompt added to history', 'success'); // Add toast notification
     }
   };
 
@@ -25,9 +40,16 @@ const Main = () => {
     setShowUserInfo(!showUserInfo);
   };
 
+
+
   return (
     <div className='main'>
       <div className="nav">
+        <div className="hamburger-menu" onClick={() => setSidebarOpen(!sidebarOpen)}>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
         <p>Vision AI</p>
         <div className="nav-right">
           <button>Upgrade Plan</button>
@@ -51,42 +73,44 @@ const Main = () => {
             </div>
 
             <div className="cards">
-              <div className="card" onClick={() => handleCardClick('Suggest beautiful places to see on an upcoming road trips')}>
-                <p>Suggest beautiful places to see on an upcoming road trips</p>
-                <img src={comp} alt="" />
+              <div className="card" onClick={() => handleCardClick("Suggest scenic routes and destinations for a road trip")}>
+                <p>Suggest scenic routes and destinations for a road trip</p>
+                <img src={comp} alt="compass icon" />
               </div>
 
-              <div className="card" onClick={() => handleCardClick('Help explain a concept in a kid-friendly way')}>
-                <p>Help explain a concept in a kid-friendly way</p>
-                <img src={bulb} alt="" />
+              <div className="card" onClick={() => handleCardClick("Explain how rainbows form in a kid-friendly way")}>
+                <p>Explain how rainbows form in a kid-friendly way</p>
+                <img src={bulb} alt="bulb icon" />
               </div>
 
-              <div className="card" onClick={() => handleCardClick('Help to create a weekly plan of work')}>
-                <p>Help to create a weekly plan of work</p>
-                <img src={msg} alt="" />
+              <div className="card" onClick={() => handleCardClick("Create a balanced weekly work schedule")}>
+                <p>Create a balanced weekly work schedule</p>
+                <img src={msg} alt="message icon" />
               </div>
 
-              <div className="card" onClick={() => handleCardClick('Improve the readability of the following code')}>
-                <p>Improve the readability of the following code</p>
-                <img src={code} alt="" />
+              <div className="card" onClick={() => handleCardClick("Help improve code readability and structure")}>
+                <p>Help improve code readability and structure</p>
+                <img src={code} alt="code icon" />
               </div>
             </div>
           </>
           : <div className='result'>
-            <div className="result-tittle">
-              <img src={user} alt="" />
-              <p>{recentPrompt}</p>
-            </div>
-
-            <div className="result-data">
-              <img src={logo} alt="" />
-              {loading
-                ? <div className='loader'>
-                  <hr />
-                </div>
-                : <p dangerouslySetInnerHTML={{ __html: resultData }}></p>
-              }
-            </div>
+            {currentMessages.map((message, index) => (
+              <div key={index} className={message.role === 'user' ? "result-tittle" : "result-data"}>
+                <img src={message.role === 'user' ? user : logo} alt="" />
+                {message.role === 'user' ? (
+                  <p>{message.content}</p>
+                ) : (
+                  loading && index === currentMessages.length - 1 ? (
+                    <div className='loader'>
+                      <hr />
+                    </div>
+                  ) : (
+                    <div dangerouslySetInnerHTML={{ __html: resultData[index] }} />
+                  )
+                )}
+              </div>
+            ))}
           </div>
         }
 

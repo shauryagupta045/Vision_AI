@@ -9,17 +9,20 @@ import logo from '../../assets/logo.png'
 import { Context } from '../../context/Context'
 import { useNavigate } from 'react-router-dom'
 
-const Sidebar = () => {
+const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const { onSent, prevPrompts, setRecentPrompt, newChat, user, logout, deleteChat, loadChat } = useContext(Context)
   const navigate = useNavigate()
   const [hoveredChatId, setHoveredChatId] = useState(null)
 
   const loadPrompt = async (chat) => {
-    await loadChat(chat._id)
+    if (chat && chat._id) {
+      await loadChat(chat._id)
+    }
   }
 
   const handleDeleteChat = async (e, chatId) => {
-    e.stopPropagation(); // Prevent the click from triggering the loadPrompt function
+    if (!chatId) return;
+    e.stopPropagation();
     await deleteChat(chatId);
   }
 
@@ -28,45 +31,87 @@ const Sidebar = () => {
     navigate('/')
   }
 
-  return (
-    <div className='sidebar'>
-      <div className="top">
-        <img className='menu' src={logo} alt="" />
-        <h2>Vision&nbsp;&nbsp;AI</h2>
+  // Helper function to get chat display text
+  const getChatDisplayText = (chat) => {
+    if (!chat) return "Untitled Chat";
+    
+    if (chat.title) return chat.title;
+    
+    if (chat.messages && chat.messages[0] && chat.messages[0].content) {
+      return chat.messages[0].content;
+    }
+    
+    return "Untitled Chat";
+  }
 
-        <div onClick={() => newChat()} className="new-chat">
-          <img src={plus} alt="" />
-          <p>New Chat</p>
+  return (
+    <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+      <div className="top">
+        <div className="top-header">
+          <div className="logo-section">
+            <img 
+              className='menu' 
+              src={logo} 
+              alt="" 
+              onClick={() => setSidebarOpen(!sidebarOpen)} 
+              style={{cursor: 'pointer'}} 
+            />
+            <h2>Vision AI</h2>
+          </div>
+          {window.innerWidth <= 600 && (
+            <button 
+              className="close-sidebar"
+              onClick={() => setSidebarOpen(false)}
+              aria-label="Close sidebar"
+            >
+              ×
+            </button>
+          )}
         </div>
 
-        <div className="recent">
-          <p className="recent-tittle"></p>
-          <h4>History</h4>
+        {/* Remove the sidebarOpen condition for desktop view */}
+        <div className="sidebar-content">
+          <button onClick={() => {
+              newChat();
+              if (window.innerWidth <= 600) {
+                  setSidebarOpen(false);
+              }
+          }} className="new-chat" type="button">
+            <img src={plus} alt="" />
+            <p>New Chat</p>
+          </button>
 
-          {prevPrompts.map((chat) => {
-            const displayText = chat.title || (chat.messages[0] && chat.messages[0].content) || "Untitled Chat";
-            return (
-              <div 
-                key={chat._id}
-                onMouseEnter={() => setHoveredChatId(chat._id)}
-                onMouseLeave={() => setHoveredChatId(null)}
-                className="history-msg recent-entry"
-              >
-                <div onClick={() => loadPrompt(chat)} className="history-content">
-                  <img src={msg} alt="" />
-                  <p>{displayText.slice(0, 15)}..</p>
+          <div className="recent">
+            <p className="recent-tittle"></p>
+            <h4>History</h4>
+
+            {Array.isArray(prevPrompts) && prevPrompts.map((chat) => {
+              if (!chat) return null;
+              const displayText = getChatDisplayText(chat);
+              
+              return (
+                <div 
+                  key={chat._id || Math.random()}
+                  onMouseEnter={() => setHoveredChatId(chat._id)}
+                  onMouseLeave={() => setHoveredChatId(null)}
+                  className="history-msg recent-entry"
+                >
+                  <div onClick={() => loadPrompt(chat)} className="history-content">
+                    <img src={msg} alt="" />
+                    <p>{displayText.slice(0, 15)}..</p>
+                  </div>
+                  {hoveredChatId === chat._id && (
+                    <button 
+                      className="delete-chat-btn"
+                      onClick={(e) => handleDeleteChat(e, chat._id)}
+                    >
+                      ✕
+                    </button>
+                  )}
                 </div>
-                {hoveredChatId === chat._id && (
-                  <button 
-                    className="delete-chat-btn"
-                    onClick={(e) => handleDeleteChat(e, chat._id)}
-                  >
-                    ✕
-                  </button>
-                )}
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
       </div>
 
