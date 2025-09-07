@@ -35,7 +35,7 @@ A full-stack personal AI assistant application built with React frontend and Nod
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/shauryagupta045/Vision_AI
    cd personal-ai
    ```
 
@@ -56,6 +56,7 @@ A full-stack personal AI assistant application built with React frontend and Nod
 Create a `.env` file in the `backend` directory with the following variables:
 
 ```env
+Port = 5000
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret_key
 GOOGLE_API_KEY=your_google_gemini_api_key
@@ -126,5 +127,6 @@ npm start  # Start production server
 3. Make your changes
 4. Test thoroughly
 5. Submit a pull request
+
 
 
