@@ -16,6 +16,9 @@ const ContextProvider = (props) => {
   const [currentChatId, setCurrentChatId] = useState(null);
   const [toast, setToast] = useState({ message: '', type: '' });
 
+  // Define base URL for API calls
+  const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://vision-ai-9jni.vercel.app';
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
@@ -29,7 +32,7 @@ const ContextProvider = (props) => {
   const fetchChatHistory = async (token) => {
     if (!token) return; // Skip if no token (guest user)
     try {
-      const response = await fetch('http://localhost:5000/api/chat', {
+      const response = await fetch(`${baseUrl}/api/chat`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -228,7 +231,7 @@ const ContextProvider = (props) => {
     if (!token) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/chat/${chatId}`, {
+      const response = await fetch(`${baseUrl}/api/chat/${chatId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -258,7 +261,7 @@ const ContextProvider = (props) => {
     if (!token) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/chat/${chatId}`, {
+      const response = await fetch(`${baseUrl}/api/chat/${chatId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -299,7 +302,7 @@ const ContextProvider = (props) => {
       if (!currentChatId) {
         console.log('Creating new chat...');
         // Create a new chat
-        const res = await fetch('http://localhost:5000/api/chat', {
+        const res = await fetch(`${baseUrl}/api/chat`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -317,7 +320,7 @@ const ContextProvider = (props) => {
         console.log('New chat created with ID:', currentChatId);
 
         // Update title with the first message
-        await fetch(`http://localhost:5000/api/chat/${currentChatId}/title`, {
+        await fetch(`${baseUrl}/api/chat/${currentChatId}/title`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -332,7 +335,7 @@ const ContextProvider = (props) => {
 
       // Add messages to the chat
       console.log('Adding message to chat:', currentChatId, messages[0]);
-      const messageRes = await fetch(`http://localhost:5000/api/chat/${currentChatId}/messages`, {
+      const messageRes = await fetch(`${baseUrl}/api/chat/${currentChatId}/messages`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
