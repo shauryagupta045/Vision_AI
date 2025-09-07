@@ -13,6 +13,9 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const { login } = useContext(Context);
 
+    // Define base URL for API calls
+    const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://vision-ai-9jni.vercel.app';
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -26,7 +29,7 @@ const LoginPage = () => {
         setError('');
 
         try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
+            const response = await fetch(`${baseUrl}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

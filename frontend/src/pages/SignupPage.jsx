@@ -13,6 +13,9 @@ const SignupPage = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
+    // Define base URL for API calls
+    const baseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : 'https://vision-ai-9jni.vercel.app';
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -32,7 +35,7 @@ const SignupPage = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/api/auth/signup', {
+            const response = await fetch(`${baseUrl}/api/auth/signup`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
